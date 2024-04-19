@@ -1,0 +1,30 @@
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+
+Compass.Client/.env.development.local
+/.vs/CompassPOC/FileContentIndex
+/.vs/CompassPOC/DesignTimeBuild/.dtbcache.v2
+/.vs/CompassPOC/v17/DocumentLayout.json
+/.vs/CompassPOC/config/applicationhost.config
+.vs/ProjectEvaluation/compasspoc.projects.v7.bin
+.vs/ProjectEvaluation/compasspoc.metadata.v7.bin
+.vs/CompassPOC/v17/.futdcache.v2
+/.vs/COMPASS/v17/DocumentLayout.json
+/.vs/COMPASS/v17/.wsuo
+.vs/VSWorkspaceState.json
