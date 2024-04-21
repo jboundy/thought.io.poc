@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import BubbleText from "../components/bubbleText";
+import BubbleForm from "../components/bubbleForm";
 
 export default function LandingPage() {
   const [eventData, setEventData] = useState([""]);
@@ -35,11 +36,9 @@ export default function LandingPage() {
 
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the content of the Home page.</p>
+      <BubbleForm />
 
       <div>
-        <h2>Event Data</h2>
         {eventData.map((message, index) => (
           <BubbleText key={index} text={message} />
         ))}

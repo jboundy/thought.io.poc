@@ -34,14 +34,15 @@ export default function BubbleText({ text }: BubbleTextProps) {
     return () => clearInterval(intervalId);
   }, []); // Run effect only once on component mount
 
-  return (
+  // Render only if there is text
+  return text ? (
     <div
       className="moving-text"
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`, // Use transform for smooth transition
       }}
     >
-      <p>{text}</p>
+      <h1>{text}</h1>
     </div>
-  );
+  ) : null;
 }

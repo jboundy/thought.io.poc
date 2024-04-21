@@ -11,6 +11,16 @@ namespace Thought.Server
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -20,6 +30,7 @@ namespace Thought.Server
                 app.UseSwaggerUI();
             }
 
+             app.UseCors("AllowAnyOrigin");
 
             // Use WebSocket middleware
             app.UseWebSockets();
