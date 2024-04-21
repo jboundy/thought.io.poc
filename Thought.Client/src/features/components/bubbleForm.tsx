@@ -22,7 +22,7 @@ export default function BubbleForm() {
   };
 
   return (
-    <div className="image-container">
+    <div>
       <img src={BubbleFormImage} alt="Image" className="image" />
       <form className="text-form">
         <input

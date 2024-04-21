@@ -1,4 +1,9 @@
 .moving-text {
   position: absolute;
-  transition: transform 1s ease-in-out; /* Add transition for smooth animation */
+  transition: transform 1s ease-in-out;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../assets/bubleText.css";
+import BubbleTextImage from "../../assets/images/BubbleOutput.jpg";
 
 interface BubbleTextProps {
   text: string;
@@ -34,15 +35,28 @@ export default function BubbleText({ text }: BubbleTextProps) {
     return () => clearInterval(intervalId);
   }, []); // Run effect only once on component mount
 
-  // Render only if there is text
   return text ? (
-    <div
-      className="moving-text"
-      style={{
-        transform: `translate(${position.x}px, ${position.y}px)`, // Use transform for smooth transition
-      }}
-    >
-      <h1>{text}</h1>
+    <div className="image-container">
+      <div
+        className="moving-text"
+        style={{
+          position: "relative",
+          transform: `translate(${position.x}px, ${position.y}px)`,
+        }}
+      >
+        <img src={BubbleTextImage} alt="Image" className="image" />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1,
+          }}
+        >
+          <h1 style={{ backgroundColor: "black" }}>{text}</h1>
+        </div>
+      </div>
     </div>
   ) : null;
 }
