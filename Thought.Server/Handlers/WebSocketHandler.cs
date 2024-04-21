@@ -1,52 +1,62 @@
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Text;
-using Thought.Server.Interfaces;
 
 namespace Thought.Server.Handlers
 {
-    public class WebSocketHandler : IWebSocketHandler
+    public static class WebSocketHandler
     {
-        ConcurrentDictionary<WebSocket, object> ActiveSockets = new ConcurrentDictionary<WebSocket, object>();
-        public WebSocketHandler()
+        private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
+
+        public static async Task SendMessageToAll(string message)
         {
-
-        }
-
-        public async Task OnConnectedAsync(WebSocket socket)
-        {
-             ActiveSockets.TryAdd(socket, new object());
-
-            // Optionally, you can perform any initialization logic here
-            // For example, sending a welcome message to the connected client
-            string welcomeMessage = "Welcome to the WebSocket server!";
-            byte[] welcomeMessageBytes = Encoding.UTF8.GetBytes(welcomeMessage);
-            await socket.SendAsync(new ArraySegment<byte>(welcomeMessageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
-            
-        }
-
-        public async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
-        {
-             if (result.MessageType == WebSocketMessageType.Text)
+            foreach (var socket in _sockets)
             {
-                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                await socket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes("Server received: " + message)), WebSocketMessageType.Text, true, CancellationToken.None);
+                if (socket.Value.State == WebSocketState.Open)
+                {
+                    await SendMessageAsync(socket.Value, message);
+                }
             }
-            else if (result.MessageType == WebSocketMessageType.Close)
-            {
-                await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+        }
+
+        public static async Task HandleWebSocketAsync(HttpContext context)
+        {
+            if (!context.WebSockets.IsWebSocketRequest)
                 return;
-            }
-            else
+
+            var socket = await context.WebSockets.AcceptWebSocketAsync();
+            var id = Guid.NewGuid().ToString();
+            _sockets.TryAdd(id, socket);
+
+            await Receive(socket, async (result, buffer) =>
             {
-                // Handle binary message
+                if (result.MessageType == WebSocketMessageType.Text)
+                {
+                    // Here you can handle received messages from WebSocket clients if needed
+                }
+                else if (result.MessageType == WebSocketMessageType.Close)
+                {
+                    WebSocket unused;
+                    _sockets.TryRemove(id, out unused);
+                    await socket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+                }
+            });
+        }
+
+        private static async Task Receive(WebSocket socket, Action<WebSocketReceiveResult, byte[]> handleMessage)
+        {
+            var buffer = new byte[1024 * 4];
+            while (socket.State == WebSocketState.Open)
+            {
+                var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                handleMessage(result, buffer);
             }
         }
 
-        public async Task OnDisconnectedAsync(WebSocket socket)
-        {            
-            object value;
-            ActiveSockets.Remove(socket, out value);
+        private static async Task SendMessageAsync(WebSocket socket, string message)
+        {
+            var buffer = Encoding.UTF8.GetBytes(message);
+            await socket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
         }
     }
 }

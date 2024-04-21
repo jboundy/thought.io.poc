@@ -1,5 +1,4 @@
 using Thought.Server.Handlers;
-using Thought.Server.Middleware;
 
 namespace Thought.Server
 {
@@ -8,12 +7,9 @@ namespace Thought.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddWebSocketManager();
+            builder.Services.AddControllers();
 
             var app = builder.Build();
 
@@ -24,11 +20,20 @@ namespace Thought.Server
                 app.UseSwaggerUI();
             }
 
-                          // Use WebSocket middleware
-            app.UseWebSockets();
 
-            // Map WebSocket endpoints
-            app.MapWebSocketManager("/ws", new WebSocketHandler());
+            // Use WebSocket middleware
+            app.UseWebSockets();
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/ws")
+                {
+                    await WebSocketHandler.HandleWebSocketAsync(context);
+                }
+                else
+                {
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseRouting();
