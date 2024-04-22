@@ -6,7 +6,9 @@ export default function LandingPage() {
   const [eventData, setEventData] = useState([""]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:5042/ws");
+    const socket = new WebSocket(
+      "ws:///c5f33d76-fd50-4ca8-b864-a9aa8b77fc27.e1-us-east-azure.choreoapps.dev//ws"
+    );
 
     socket.onopen = () => {
       console.log("WebSocket connection established.");
