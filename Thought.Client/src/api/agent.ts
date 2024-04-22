@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "http://localhost:5042/api";
+axios.defaults.baseURL =
+  "http://c5f33d76-fd50-4ca8-b864-a9aa8b77fc27.e1-us-east-azure.choreoapps.dev/api";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
