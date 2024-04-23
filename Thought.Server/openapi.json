@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Thought.Server",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Thought": {
+      "post": {
+        "tags": ["Thought"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonValue"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonValue"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonValue"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JsonNode": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "$ref": "#/components/schemas/JsonNodeOptions"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "root": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        },
+        "additionalProperties": false
+      },
+      "JsonNodeOptions": {
+        "type": "object",
+        "properties": {
+          "propertyNameCaseInsensitive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "JsonValue": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "$ref": "#/components/schemas/JsonNodeOptions"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "root": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
