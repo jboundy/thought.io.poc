@@ -13,9 +13,9 @@ namespace Thought.Server
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAnyOrigin", builder =>
+                options.AddPolicy("AllowOrigin", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("https://ce66b207-5f91-449c-8983-951ab589e44c.e1-us-east-azure.choreoapps.dev")
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
@@ -28,7 +28,7 @@ namespace Thought.Server
             app.UseSwagger();
             app.UseSwaggerUI();
   
-             app.UseCors("AllowAnyOrigin");
+             app.UseCors("AllowOrigin");
 
             // Use WebSocket middleware
             app.UseWebSockets();
