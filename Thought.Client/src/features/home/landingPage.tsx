@@ -7,7 +7,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      "wss://c5f33d76-fd50-4ca8-b864-a9aa8b77fc27.e1-us-east-azure.choreoapps.dev//ws"
+      "wss://9d1ab8ce-afac-476b-ba88-36ca48f03309.e1-us-east-azure.choreoapps.dev//ws"
     );
 
     socket.onopen = () => {
