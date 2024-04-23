@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
-using System.Text;
 
 namespace Thought.Server.Handlers
 {
@@ -55,7 +54,7 @@ namespace Thought.Server.Handlers
 
         private static async Task SendMessageAsync(WebSocket socket, string message)
         {
-            var buffer = Encoding.UTF8.GetBytes(message);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(message);
             await socket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
         }
     }
