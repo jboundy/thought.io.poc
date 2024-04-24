@@ -6,9 +6,7 @@ export default function LandingPage() {
   const [eventData, setEventData] = useState([""]);
 
   useEffect(() => {
-    const socket = new WebSocket(
-      "wss://9d1ab8ce-afac-476b-ba88-36ca48f03309.e1-us-east-azure.choreoapps.dev//ws"
-    );
+    const socket = new WebSocket("wss://thought-bubble-api.runasp.net//ws");
 
     socket.onopen = () => {
       console.log("WebSocket connection established.");

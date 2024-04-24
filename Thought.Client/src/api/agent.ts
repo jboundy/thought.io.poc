@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL =
-  "https://9d1ab8ce-afac-476b-ba88-36ca48f03309.e1-us-east-azure.choreoapps.dev/api";
+axios.defaults.baseURL = "http://thought-bubble-api.runasp.net/api";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
